@@ -1,10 +1,14 @@
 <template>
   <div>
     <hg-intro />
-
-    <div v-show="!isShowIntro" v-if="characters.length">
-      <div v-for="(character, index) in characters" :key="index">
-        {{ character.name }} {{ character.unlocked }}
+    <div class="cards__wrapper">
+      <div v-show="!isShowIntro" v-if="characters && characters.length" class="cards">
+        <hg-card
+          v-for="(character, index) in characters"
+          :character="character"
+          :index="index"
+          :key="index"
+        />
       </div>
     </div>
   </div>
@@ -13,10 +17,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import HgIntro from '../components/HgIntro.vue'
+import HgIntro from '@/components/HgIntro.vue'
+import HgCard from '@/components/HgCard.vue'
 
 export default Vue.extend({
   components: {
+    HgCard,
     HgIntro,
   },
   data() {
@@ -31,10 +37,22 @@ export default Vue.extend({
     }),
   },
   methods: {},
-  created() {
-    this.$store.dispatch('characters/GET_CHARACTHERS')
-  },
 })
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+
+  &__wrapper {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+  }
+}
+</style>

@@ -13,11 +13,24 @@ export const mutations = {
   setInGameCharacters(state: CharacterState, characters: Character[]) {
     state.inGameCharacters = characters
   },
+  unlockCharacter(state: CharacterState, id: number) {
+    const character = state.characters.find((x) => x.char_id == id)
+
+    if (character) {
+      character.unlocked = true
+    }
+  },
 }
 
 export const getters = {
   getInGameCharacters(state: CharacterState) {
     return state.inGameCharacters
+  },
+  getCharacters(state: CharacterState) {
+    return state.characters
+  },
+  getUnlockedCharacters(state: CharacterState) {
+    return state.characters.filter((x) => x.unlocked)
   },
 }
 
@@ -27,15 +40,14 @@ export const actions = {
       return
     }
 
-    const lockedCharaters = state.characters.filter((x) => {
+    const lockedCharacters = state.characters.filter((x) => {
       return !x.unlocked
     })
 
-    const firstCharathers = lockedCharaters.slice(0, 8)
+    const firstCharathers = lockedCharacters
+    const allCharacters = [...firstCharathers, ...firstCharathers]
 
-    const allCharaters = [...firstCharathers, ...firstCharathers]
-
-    commit('setInGameCharacters', shuffle(allCharaters))
+    commit('setInGameCharacters', shuffle(allCharacters))
   },
 
   async GET_CHARACTHERS({

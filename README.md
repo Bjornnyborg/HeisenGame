@@ -1,4 +1,4 @@
-# heisengame
+# HeisenGame
 
 ## Build Setup
 
@@ -15,6 +15,9 @@ $ npm run start
 
 # generate static project
 $ npm run generate
+
+# deploy to heroku
+$ git push heroku
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
