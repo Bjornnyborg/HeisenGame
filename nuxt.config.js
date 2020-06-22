@@ -37,7 +37,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/pwa'],
+  modules: ['@nuxtjs/pwa', 'nuxt-svg-loader'],
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
