@@ -1,10 +1,9 @@
 <template>
-  <div class="card__wrapper" @click="flip(index, character.char_id)">
+  <div class="card__wrapper" @click="flip(index, character.char_id)" ref="card">
     <div
       class="card"
       :class="{
         'card--flip': flipped.includes(index),
-        'card--done': character.unlocked,
         'card--locked': isLocked,
       }"
     >
@@ -46,15 +45,40 @@ export default Vue.extend({
       quotes: 'quotes/getQuotes',
     }),
   },
+  mounted() {
+    this.getTransform()
+  },
+  watch: {
+    'character.unlocked': function () {
+      this.getTransform()
+    },
+  },
   methods: {
+    getTransform() {
+      if (this.character.unlocked) {
+        const el = this.$refs.card as HTMLDivElement
+
+        if (!el) {
+          return
+        }
+
+        const boundaries = el.getBoundingClientRect()
+        const top = boundaries.y + boundaries.height / 4
+        const left = boundaries.x + boundaries.width / 2
+
+        const moveX = window.innerWidth - left - 40
+        const moveY = top * -1 - 40
+
+        el.style.transform = `translate(${moveX}px, ${moveY}px) scale(0)`
+      } else {
+        return {
+          transform: null,
+        }
+      }
+    },
     flip(index: number, id: number) {
       this.$store.dispatch('cards/FLIP_CARD', { index, id })
     },
-  },
-  mounted() {
-    if (this.character) {
-      this.$store.dispatch('quotes/GET_QUOTES', this.character.name)
-    }
   },
 })
 </script>
@@ -67,12 +91,19 @@ export default Vue.extend({
   max-width: 200px;
   margin: 0 auto;
   height: 100%;
-  transition: transform 1s;
+  transition: transform 0.6s, box-shadow 0.6s, top 0.3s;
   transform-style: preserve-3d;
   cursor: pointer;
   position: relative;
   border-radius: 10px;
   border: 5px solid $color-white;
+  top: 0;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+
+  &:hover {
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.4);
+    top: -10px;
+  }
 
   &--locked {
     cursor: not-allowed;
@@ -80,7 +111,6 @@ export default Vue.extend({
 
   &--flip {
     transform: rotateY(180deg) scale(1);
-    transition: transform 1s;
 
     &.card--locked {
       animation-name: blink;
@@ -101,6 +131,7 @@ export default Vue.extend({
     height: 250px;
     perspective: 600px;
     padding: 12px;
+    transition: transform 1s;
   }
 
   &__face {
@@ -137,13 +168,13 @@ export default Vue.extend({
 
 @keyframes blink {
   0% {
-    box-shadow: 0 0 0 $color-white;
+    box-shadow: 0 0 0 $color-yellow;
   }
   50% {
-    box-shadow: 0 0 15px 5px $color-white;
+    box-shadow: 0 0 5px 5px $color-yellow;
   }
   100% {
-    box-shadow: 0 0 0 $color-white;
+    box-shadow: 0 0 0 $color-yellow;
   }
 }
 </style>

@@ -1,10 +1,12 @@
 export interface HeisenState {
   showIntro: boolean
+  showScoreboard: boolean
 }
 
 export interface CharacterState {
   characters: Character[]
   inGameCharacters: Character[]
+  level: number
 }
 
 export interface Character {

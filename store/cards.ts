@@ -46,7 +46,6 @@ export const actions = {
     commit('addFlip', { index, id })
 
     if (state.flipped.length) {
-      console.log(id, state.flipped[0].id)
       if (index === state.flipped[0].index) {
         return
       } else if (id === state.flipped[0].id) {

@@ -40,7 +40,6 @@ export default Vue.extend({
   },
   methods: {
     navigate() {
-      console.log('asdad')
       if (this.character.unlocked) {
         this.$router.push({
           path: '/character/' + this.character.char_id,

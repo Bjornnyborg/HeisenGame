@@ -4,6 +4,7 @@ import { shuffle } from '~/helpers/shuffle'
 export const state = (): CharacterState => ({
   characters: [],
   inGameCharacters: [],
+  level: 0,
 })
 
 export const mutations = {
@@ -12,6 +13,9 @@ export const mutations = {
   },
   setInGameCharacters(state: CharacterState, characters: Character[]) {
     state.inGameCharacters = characters
+  },
+  levelUp(state: CharacterState) {
+    state.level++
   },
   unlockCharacter(state: CharacterState, id: number) {
     const character = state.characters.find((x) => x.char_id == id)
@@ -32,19 +36,27 @@ export const getters = {
   getUnlockedCharacters(state: CharacterState) {
     return state.characters.filter((x) => x.unlocked)
   },
+  getLevel(state: CharacterState) {
+    return state.level
+  },
 }
 
 export const actions = {
+  LEVEL_DONE({ commit, dispatch }: { commit: any; dispatch: any }) {
+    commit('setShowScoreboard', true, { root: true })
+  },
+
   INIT_GAME({ commit, state }: { commit: any; state: CharacterState }) {
-    if (state.inGameCharacters.length) {
-      return
-    }
+    commit('setShowScoreboard', false, { root: true })
+    commit('levelUp')
 
     const lockedCharacters = state.characters.filter((x) => {
       return !x.unlocked
     })
 
-    const firstCharathers = lockedCharacters
+    const decksize = 2
+    const firstCharathers = lockedCharacters.slice(0, decksize)
+
     const allCharacters = [...firstCharathers, ...firstCharathers]
 
     commit('setInGameCharacters', shuffle(allCharacters))

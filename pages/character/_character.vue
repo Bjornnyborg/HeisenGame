@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nuxt-link class="btn" to="/">
+    <nuxt-link class="btn" to="/" v-if="character.unlocked">
       <icon-arrow-left />Back to game
     </nuxt-link>
 
@@ -18,7 +18,7 @@
         target="blank"
       >Played by: {{ character.portrayed }}</a>
 
-      <div class="character__facts">
+      <div class="character__facts" v-if="character.unlocked">
         <div>
           <strong>Birthday:</strong>
           {{ character.birthday }}
@@ -47,8 +47,13 @@
           >{{ item }}</a>
         </div>
       </div>
+      <div v-else class="character__locked">
+        <p>Play more, to unlock information about this character</p>
 
-      <div class="characters__quotes"></div>
+        <nuxt-link class="btn" to="/">Back to game</nuxt-link>
+      </div>
+
+      <div class="character__quotes"></div>
     </div>
   </div>
 </template>
@@ -77,6 +82,14 @@ export default Vue.extend({
   },
   props: {},
   methods: {},
+  mounted() {
+    if (this.character) {
+      this.$store.dispatch(
+        'quotes/GET_QUOTES',
+        (this.character as Character).name
+      )
+    }
+  },
 })
 </script>
 
@@ -129,7 +142,7 @@ export default Vue.extend({
   }
 
   &__portrayed {
-    color: $color-gray;
+    color: $color-primary;
   }
 
   &__facts {
@@ -143,6 +156,15 @@ export default Vue.extend({
       text-transform: uppercase;
       display: block;
       margin-top: 8px;
+    }
+  }
+
+  &__locked {
+    margin: 24px 0;
+    font-weight: bold;
+
+    p {
+      margin-bottom: 24px;
     }
   }
 }
