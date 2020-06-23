@@ -54,7 +54,7 @@ export const actions = {
       return !x.unlocked
     })
 
-    const decksize = 2
+    const decksize = 6
     const firstCharathers = lockedCharacters.slice(0, decksize)
 
     const allCharacters = [...firstCharathers, ...firstCharathers]
