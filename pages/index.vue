@@ -16,6 +16,8 @@
           :index="index"
           :key="character.char_id + '_' + index"
         />
+
+        <hg-timer />
       </div>
     </div>
   </div>
@@ -26,6 +28,7 @@ import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import HgIntro from '@/components/HgIntro.vue'
 import HgCard from '@/components/HgCard.vue'
+import HgTimer from '@/components/HgTimer.vue'
 import HgScoreboard from '@/components/HgScoreboard.vue'
 import { Character } from '../@types'
 
@@ -34,6 +37,7 @@ export default Vue.extend({
     HgCard,
     HgIntro,
     HgScoreboard,
+    HgTimer,
   },
   data() {
     return {
@@ -45,10 +49,8 @@ export default Vue.extend({
       isShowIntro: 'isShowIntro',
       isShowScoreboard: 'isShowScoreboard',
       characters: 'characters/getInGameCharacters',
+      lockedCharacters: 'characters/getLockedInGameCharacters',
     }),
-    lockedCharacters() {
-      return this.characters.filter((x: Character) => !x.unlocked)
-    },
   },
   watch: {
     lockedCharacters: function (value) {

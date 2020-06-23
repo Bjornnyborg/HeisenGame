@@ -36,6 +36,9 @@ export const getters = {
   getUnlockedCharacters(state: CharacterState) {
     return state.characters.filter((x) => x.unlocked)
   },
+  getLockedInGameCharacters(state: CharacterState) {
+    return state.inGameCharacters.filter((x) => !x.unlocked)
+  },
   getLevel(state: CharacterState) {
     return state.level
   },
@@ -46,9 +49,20 @@ export const actions = {
     commit('setShowScoreboard', true, { root: true })
   },
 
-  INIT_GAME({ commit, state }: { commit: any; state: CharacterState }) {
+  INIT_GAME({
+    commit,
+    dispatch,
+    state,
+  }: {
+    commit: any
+    dispatch: any
+    state: CharacterState
+  }) {
     commit('setShowScoreboard', false, { root: true })
     commit('levelUp')
+
+    commit('setStart', Date.now, { root: true })
+    commit('setStop', 0, { root: true })
 
     const lockedCharacters = state.characters.filter((x) => {
       return !x.unlocked
@@ -85,6 +99,7 @@ export const actions = {
         })
 
         commit('setCharacters', characters)
+
         dispatch('INIT_GAME')
       })
   },

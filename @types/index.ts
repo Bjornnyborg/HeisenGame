@@ -1,6 +1,8 @@
 export interface HeisenState {
   showIntro: boolean
   showScoreboard: boolean
+  start: number
+  stop: number
 }
 
 export interface CharacterState {
