@@ -14,8 +14,6 @@
         <img class="card__image" :src="character.img" alt />
       </div>
     </div>
-    <div v-if="quotes[character.name]">{{ quotes[character.name].quote }}</div>
-    {{ character.name }}
   </div>
 </template>
 
@@ -42,7 +40,6 @@ export default Vue.extend({
       flipped: 'cards/getFlipped',
       unlockedCharacters: 'characters/getUnlockedCharacters',
       isLocked: 'cards/getLocked',
-      quotes: 'quotes/getQuotes',
     }),
   },
   mounted() {
@@ -63,11 +60,17 @@ export default Vue.extend({
         }
 
         const boundaries = el.getBoundingClientRect()
-        const top = boundaries.y + boundaries.height / 4
-        const left = boundaries.x + boundaries.width / 2
 
+        const left = boundaries.x + boundaries.width / 2
         const moveX = window.innerWidth - left - 40
-        const moveY = top * -1 - 40
+        let moveY = 0
+        const top = boundaries.y + boundaries.height / 4
+
+        if (window.innerWidth >= 992) {
+          moveY = top * -1 - 40
+        } else {
+          moveY = window.innerHeight - top - 40
+        }
 
         el.style.transform = `translate(${moveX}px, ${moveY}px) scale(0)`
       } else {
@@ -95,10 +98,15 @@ export default Vue.extend({
   transform-style: preserve-3d;
   cursor: pointer;
   position: relative;
-  border-radius: 10px;
-  border: 5px solid $color-white;
+  border-radius: 5px;
+  border: 2px solid $color-white;
   top: 0;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+
+  @media (min-width: $media-md) {
+    border: 5px solid $color-white;
+    border-radius: 10px;
+  }
 
   &:hover {
     box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.4);
@@ -129,9 +137,14 @@ export default Vue.extend({
   &__wrapper {
     width: 25%;
     height: 250px;
+    max-height: 25vh;
     perspective: 600px;
-    padding: 12px;
+    padding: 4px;
     transition: transform 1s;
+
+    @media (min-width: $media-md) {
+      padding: 8px;
+    }
   }
 
   &__face {
@@ -157,6 +170,7 @@ export default Vue.extend({
     width: 100px;
     height: 100px;
     fill: $color-white;
+    max-width: 85%;
   }
 
   &__image {

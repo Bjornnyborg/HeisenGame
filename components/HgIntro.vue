@@ -1,9 +1,9 @@
 <template>
   <div class="intro" :class="{ 'intro--active': isShowIntro }">
-    <h1 class="intro__title">Heisen Game</h1>
+    <icon-logo class="intro__logo" />
     <p class="intro__text">
       Match characters in a classic memory game,
-      <br />to unlock information and quotes!
+      <br />to unlock information about them!
     </p>
     <button @click="close" class="btn">Let's get cooking!</button>
   </div>
@@ -12,6 +12,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import IconLogo from '@/assets/svg/icon-logo.svg'
 
 export default Vue.extend({
   props: {
@@ -19,6 +20,9 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+  },
+  components: {
+    IconLogo,
   },
   computed: {
     ...mapGetters(['isShowIntro']),
@@ -47,16 +51,17 @@ export default Vue.extend({
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s, visibility 0.3s;
+  padding: 16px;
 
   &--active {
     opacity: 1;
     visibility: visible;
   }
 
-  &__title {
-    font-size: 72px;
-    text-align: center;
-    font-weight: normal;
+  &__logo {
+    margin-bottom: 32px;
+    max-width: 60%;
+    width: 400px;
   }
 
   &__text {

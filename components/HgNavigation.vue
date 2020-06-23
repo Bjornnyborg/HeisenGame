@@ -5,32 +5,18 @@
       :class="{ 'navigation__toggle--visible': !isShowIntro }"
       @click="toggleDrawer"
     >
-      <icon-heisenberg
-        class="navigation__icon"
-        :class="{ 'navigation__icon--active': !open }"
-      />
-      <icon-cross
-        class="navigation__icon"
-        :class="{ 'navigation__icon--active': open }"
-      />
+      <icon-heisenberg class="navigation__icon" :class="{ 'navigation__icon--active': !open }" />
+      <icon-cross class="navigation__icon" :class="{ 'navigation__icon--active': open }" />
       <span
         class="navigation__count"
         :class="{ 'navigation__count--bounce': bounce }"
-        >{{ unlockedCharacters.length }}</span
-      >
+      >{{ unlockedCharacters.length }}</span>
     </button>
 
-    <div
-      class="navigation__drawer"
-      :class="{ 'navigation__drawer--open': open }"
-    >
+    <div class="navigation__drawer" :class="{ 'navigation__drawer--open': open }">
       <div class="navigation__content">
         <h1>Your unlocked characters:</h1>
-        <hg-character
-          v-for="person in characters"
-          :key="person.char_id"
-          :character="person"
-        />
+        <hg-character v-for="person in characters" :key="person.char_id" :character="person" />
       </div>
     </div>
   </div>
@@ -120,7 +106,7 @@ export default Vue.extend({
   &__content {
     max-width: 800px;
     margin: 0 auto;
-    padding: 15px 30px;
+    padding: 80px 16px;
   }
 
   &__count {
@@ -145,8 +131,8 @@ export default Vue.extend({
 
   &__toggle {
     position: fixed;
-    top: 16px;
-    right: 16px;
+    bottom: 8px;
+    right: 8px;
     width: 48px;
     height: 48px;
     z-index: 20;
@@ -163,6 +149,17 @@ export default Vue.extend({
     align-items: center;
     box-shadow: 10px 10px 20px rgba($color-primary, 0.3);
     cursor: pointer;
+    border: 1px solid $color-white;
+
+    @media (min-width: $media-sm) {
+      bottom: 16px;
+      right: 16px;
+    }
+
+    @media (min-width: $media-md) {
+      top: 16px;
+      bottom: auto;
+    }
 
     &:focus {
       outline: none;

@@ -1,7 +1,11 @@
 body {
-    background: $color-black;
-    color: $color-white;
-    background-image: url('/img/intro-bg.jpg');
-    background-size: cover;
+  background: $color-black;
+  color: $color-white;
+  background-image: url('/img/intro-bg.jpg');
+  background-size: cover;
+  background-position: 25% center;
+
+  @media (min-width: $media-md) {
     background-position: center;
+  }
 }

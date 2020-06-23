@@ -33,18 +33,3 @@ export interface Flip {
   index: number
   id: number
 }
-
-export interface QuotesState {
-  quotes: Quotes
-  loading: boolean
-}
-
-export interface Quotes {
-  [key: string]: string[]
-}
-
-export interface Quote {
-  quote_id: number
-  quote: string
-  author: string
-}

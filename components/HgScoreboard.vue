@@ -1,7 +1,7 @@
 <template>
   <div class="scoreboard" :class="{ 'scoreboard--active': isShowScoreboard }">
-    <div v-if="step == 0">
-      <h1 class="scoreboard__title">Level {{ level }} in {{ step }} seconds</h1>
+    <div v-if="step == 0" class="scoreboard__step">
+      <h1>Level {{ level }} in {{ step }} sec.</h1>
       <p>To get on the scoreboard, submit your name:</p>
 
       <form class="scoreboard__form">
@@ -12,8 +12,8 @@
       <button type="button" @click="step = 1" class="scoreboard__continue">No thanks</button>
     </div>
 
-    <div v-else>
-      <h1 class="scoreboard__title">Highscores for level {{ level }}</h1>
+    <div v-else class="scoreboard__step">
+      <h1>Highscores for level {{ level }}</h1>
 
       <div class="scoreboard__score" v-for="(score, index) in scoreboard" :key="index">
         <div class="scoreboard__place">{{ index + 1}}</div>
@@ -25,7 +25,9 @@
           <div>{{ score.time }}s</div>
         </div>
       </div>
-      <button @click="nextLevel" class="btn">Next level!</button>
+      <div class="scoreboard__footer">
+        <button @click="nextLevel" class="btn">Next level!</button>
+      </div>
     </div>
   </div>
 </template>
@@ -102,12 +104,19 @@ export default Vue.extend({
     visibility: visible;
   }
 
+  &__step {
+    padding: 16px;
+    width: 100%;
+  }
+
   &__input {
     padding: 6px 8px 6px 30px;
     border-radius: 30px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border: none;
+    flex-shrink: 1;
+    max-width: 50%;
   }
 
   &__form {
@@ -123,37 +132,48 @@ export default Vue.extend({
     }
   }
 
-  &__title {
-    font-size: 60px;
-    text-align: center;
-    font-weight: normal;
-  }
-
   &__score {
     display: flex;
     align-items: center;
     padding: 8px;
     margin-bottom: 2px;
     background: $color-gray-dark;
+    overflow: hidden;
+
+    @media (min-width: $media-md) {
+      padding: 8px 16px;
+    }
+  }
+
+  &__footer {
+    margin-top: 16px;
   }
 
   &__meta {
     text-align: left;
     font-size: 12px;
     color: $color-gray;
+    overflow: hidden;
   }
 
   &__info {
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
+    align-items: center;
+    overflow: hidden;
   }
 
   &__name {
-    margin-right: 15px;
-    flex-grow: 1;
+    padding-right: 8px;
     font-size: 16px;
+    flex-shrink: 1;
     color: $color-white;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    text-overflow: ellipsis;
   }
 
   &__place {
@@ -164,9 +184,13 @@ export default Vue.extend({
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 16px;
+    margin-right: 8px;
     font-weight: bold;
     flex-shrink: 0;
+
+    @media (min-width: $media-md) {
+      margin-right: 16px;
+    }
   }
 
   &__continue {

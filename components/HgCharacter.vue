@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="character"
-    :class="{ 'character--locked': !character.unlocked }"
-    @click="navigate()"
-  >
+  <div class="character" :class="{ 'character--locked': !character.unlocked }" @click="navigate()">
     <div class="character__image-wrapper">
       <img
         class="character__image"
@@ -15,12 +11,8 @@
     </div>
 
     <div>
-      <strong>
-        {{ character.name }}
-      </strong>
-      <div class="character__portrayed">
-        Played by: {{ character.portrayed }}
-      </div>
+      <strong>{{ character.name }}</strong>
+      <div class="character__portrayed">Actor: {{ character.portrayed }}</div>
     </div>
   </div>
 </template>
@@ -65,22 +57,33 @@ export default Vue.extend({
   }
 
   &__image-wrapper {
-    width: 75px;
-    height: 75px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
+    flex-shrink: 0;
     justify-content: center;
     align-items: center;
     border: 3px solid $color-primary;
     margin-right: 16px;
     overflow: hidden;
+
+    @media (min-width: $media-md) {
+      width: 75px;
+      height: 75px;
+    }
   }
 
   &__icon {
     fill: $color-white;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
+
+    @media (min-width: $media-md) {
+      width: 32px;
+      height: 32px;
+    }
   }
 
   &__image {
@@ -91,6 +94,7 @@ export default Vue.extend({
 
   &__portrayed {
     color: $color-gray;
+    font-size: 14px;
   }
 }
 </style>
