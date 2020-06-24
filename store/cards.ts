@@ -58,7 +58,7 @@ export const actions = {
 
           commit('setLocked', false)
           commit('resetFlipped')
-        }, 1500)
+        }, 500)
       }
     }
   },

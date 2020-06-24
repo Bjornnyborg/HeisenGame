@@ -33,7 +33,8 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ['@nuxt/typescript-build'],
+
+  buildModules: ['@nuxt/typescript-build', '@nuxtjs/pwa'],
   /*
    ** Nuxt.js modules
    */
@@ -43,6 +44,9 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {},
+  loading: {
+    color: '#154f3c',
+  },
   env: {
     apiUrl: process.env.API_URL,
   },

@@ -72,7 +72,7 @@ export default Vue.extend({
           moveY = window.innerHeight - top - 40
         }
 
-        el.style.transform = `translate(${moveX}px, ${moveY}px) scale(0)`
+        el.style.transform = `translate(${moveX}px, ${moveY}px) scale(0) rotateY(180deg)`
       } else {
         return {
           transform: null,
@@ -119,19 +119,6 @@ export default Vue.extend({
 
   &--flip {
     transform: rotateY(180deg) scale(1);
-
-    &.card--locked {
-      animation-name: blink;
-      animation-duration: 0.25s;
-      animation-iteration-count: 2;
-      animation-timing-function: linear;
-      animation-delay: 0.75s;
-    }
-  }
-
-  &--done {
-    transform: rotateY(180deg) scale(0);
-    transition: transform 0.5s;
   }
 
   &__wrapper {
@@ -177,18 +164,6 @@ export default Vue.extend({
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-}
-
-@keyframes blink {
-  0% {
-    box-shadow: 0 0 0 $color-yellow;
-  }
-  50% {
-    box-shadow: 0 0 5px 5px $color-yellow;
-  }
-  100% {
-    box-shadow: 0 0 0 $color-yellow;
   }
 }
 </style>
