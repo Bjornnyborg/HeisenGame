@@ -17,7 +17,9 @@
           <button type="submit" class="btn">Submit</button>
         </form>
 
-        <button type="button" @click="nextStep()" class="scoreboard__continue">No thanks</button>
+        <button type="button" @click="nextStep()" class="scoreboard__continue">
+          No thanks
+        </button>
       </div>
       <hg-loading v-else />
     </div>
@@ -25,12 +27,18 @@
     <div v-else class="scoreboard__step">
       <h1>Top 10 for level {{ level }}</h1>
       <div v-if="scoreboard.length">
-        <div class="scoreboard__score" v-for="(score, index) in scoreboard" :key="index">
+        <div
+          class="scoreboard__score"
+          v-for="(score, index) in scoreboard"
+          :key="index"
+        >
           <div class="scoreboard__place">{{ index + 1 }}</div>
           <div class="scoreboard__info">
             <div class="scoreboard__meta">
               <strong class="scoreboard__name">{{ score.name }}</strong>
-              <div>{{ getDate(new Date(score.createdDate)) }}</div>
+              <div>
+                {{ $moment(score.createdDate).format('DD. MMMM YYYY') }}
+              </div>
             </div>
             <div>{{ score.time }}s</div>
           </div>
@@ -82,28 +90,24 @@ export default Vue.extend({
     }
   },
   methods: {
-    getDate(date: Date) {
-      return new Intl.DateTimeFormat('en', {
-        year: 'numeric',
-        month: 'long',
-        day: '2-digit',
-      }).format(date)
-    },
     async getScoreboard() {
       this.loading = true
-      this.status = 'getting scoreboard'
 
-      await fetch(`${process.env.apiUrl}/highscore/${this.level}`)
+      await fetch(`${process.env.apiUrl}/highscore/${this.level}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
         .then((response) => response.json())
         .then((data) => {
           this.scoreboard = data
           this.loading = false
-          this.status = 'got scoreboard'
         })
     },
     async postScore() {
       this.loading = true
-      this.status = 'posting score'
 
       await fetch(`${process.env.apiUrl}/highscore`, {
         method: 'POST',
@@ -117,13 +121,10 @@ export default Vue.extend({
           level: this.level,
         }),
       }).then(() => {
-        this.status = 'posted score'
         this.nextStep()
       })
     },
     nextStep() {
-      this.status = 'next step'
-
       this.name = ''
       this.$store.commit('setSubmitted', true)
       this.scoreboard = []
