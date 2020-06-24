@@ -60,6 +60,12 @@
         <nuxt-link class="btn" to="/">Back to game</nuxt-link>
       </div>
     </div>
+    <div v-else-if="characters.length && !character" class="character__not-found">
+      <h1>Character not found</h1>
+      <nuxt-link class="btn" to="/">
+        <icon-arrow-left />Back to game
+      </nuxt-link>
+    </div>
     <hg-loading v-else />
   </div>
 </template>
@@ -138,6 +144,14 @@ export default Vue.extend({
     svg {
       fill: $color-white;
     }
+  }
+
+  &__not-found {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
 
   &__icon {
