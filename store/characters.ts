@@ -63,7 +63,7 @@ export const actions = {
     commit('setSubmitted', false, { root: true })
     commit('levelUp')
 
-    commit('setStart', Date.now, { root: true })
+    commit('setStart', 0, { root: true })
     commit('setStop', 0, { root: true })
 
     const lockedCharacters = state.characters.filter((x) => {

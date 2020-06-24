@@ -17,6 +17,10 @@ On submission you will see the current leaderboard, and if you're good, you will
 
 [Play the HeisenGame online](http://heisengame.herokuapp.com/)
 
+## PWA
+
+If you wan't the full experience, install to your homescreen, works best on Chrome Android
+
 ## Build Setup
 
 ```bash

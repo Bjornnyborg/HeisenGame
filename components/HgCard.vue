@@ -40,6 +40,7 @@ export default Vue.extend({
       flipped: 'cards/getFlipped',
       unlockedCharacters: 'characters/getUnlockedCharacters',
       isLocked: 'cards/getLocked',
+      start: 'getStart',
     }),
   },
   mounted() {
@@ -81,6 +82,10 @@ export default Vue.extend({
     },
     flip(index: number, id: number) {
       this.$store.dispatch('cards/FLIP_CARD', { index, id })
+
+      if (!this.start) {
+        this.$store.dispatch('START', Date.now())
+      }
     },
   },
 })

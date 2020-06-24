@@ -23,11 +23,19 @@ export default Vue.extend({
     }),
   },
   mounted() {
-    this.startTime()
+    if (this.start !== 0) {
+      this.startTime()
+    }
+  },
+  watch: {
+    start: function (value) {
+      if (value !== 0) {
+        this.startTime()
+      }
+    },
   },
   methods: {
     startTime() {
-      this.$store.dispatch('START', Date.now())
       this.getClock()
       ;(this as any).timer = setInterval(() => this.getClock(), 1000)
     },
