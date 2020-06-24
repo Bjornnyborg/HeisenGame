@@ -15,7 +15,8 @@
     "@nuxt/typescript-runtime": "^0.4.10",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "nuxt": "^2.13.0",
-    "nuxt-svg-loader": "^1.2.0"
+    "nuxt-svg-loader": "^1.2.0",
+    "dotenv": "^8.0.0"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^1.0.3",

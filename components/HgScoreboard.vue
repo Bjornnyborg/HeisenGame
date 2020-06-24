@@ -15,14 +15,20 @@
         <button type="submit" class="btn">Submit</button>
       </form>
 
-      <button type="button" @click="nextStep()" class="scoreboard__continue">No thanks</button>
+      <button type="button" @click="nextStep()" class="scoreboard__continue">
+        No thanks
+      </button>
     </div>
 
     <div v-else class="scoreboard__step">
       <h1>Highscores for level {{ level }}</h1>
       <div v-if="scoreboard.length">
-        <div class="scoreboard__score" v-for="(score, index) in scoreboard" :key="index">
-          <div class="scoreboard__place">{{ index + 1}}</div>
+        <div
+          class="scoreboard__score"
+          v-for="(score, index) in scoreboard"
+          :key="index"
+        >
+          <div class="scoreboard__place">{{ index + 1 }}</div>
           <div class="scoreboard__info">
             <div class="scoreboard__meta">
               <strong class="scoreboard__name">{{ score.name }}</strong>
@@ -78,14 +84,14 @@ export default Vue.extend({
       }).format(date)
     },
     async getScoreboard() {
-      await fetch(`http://localhost:9292/highscore/${this.level}`)
+      await fetch(`${process.env.apiUrl}/highscore/${this.level}`)
         .then((response) => response.json())
         .then((data) => {
           this.scoreboard = data
         })
     },
     async postScore() {
-      await fetch(`http://localhost:9292/highscore`, {
+      await fetch(`${process.env.apiUrl}/highscore`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
