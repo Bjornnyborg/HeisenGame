@@ -1,6 +1,5 @@
 <template>
   <div class="scoreboard" :class="{ 'scoreboard--active': isShowScoreboard }">
-    {{ status }}
     <div v-if="!submitted" class="scoreboard__step">
       <div v-if="!loading">
         <h1>Level {{ level }} in {{ stop }} sec.</h1>
@@ -37,7 +36,9 @@
             <div class="scoreboard__meta">
               <strong class="scoreboard__name">{{ score.name }}</strong>
               <div>
-                {{ $moment(score.createdDate).format('DD. MMMM YYYY') }}
+                {{
+                  $moment(new Date(score.createdDate)).format('DD. MMMM YYYY')
+                }}
               </div>
             </div>
             <div>{{ score.time }}s</div>
@@ -64,7 +65,6 @@ export default Vue.extend({
       loading: false,
       name: '',
       scoreboard: [],
-      status: '',
     }
   },
   components: {
