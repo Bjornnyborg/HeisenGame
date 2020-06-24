@@ -31,6 +31,7 @@ export default Vue.extend({
   top: 0;
   left: 0;
   overflow: hidden;
+  pointer-events: none;
 
   &:before {
     animation: slide1 45s linear infinite;

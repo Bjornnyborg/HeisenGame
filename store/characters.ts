@@ -60,6 +60,7 @@ export const actions = {
     state: CharacterState
   }) {
     commit('setShowScoreboard', false, { root: true })
+    commit('setSubmitted', false, { root: true })
     commit('levelUp')
 
     commit('setStart', Date.now, { root: true })

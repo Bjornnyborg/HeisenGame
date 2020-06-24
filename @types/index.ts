@@ -1,6 +1,7 @@
 export interface HeisenState {
   showIntro: boolean
   showScoreboard: boolean
+  submitted: boolean
   start: number
   stop: number
 }

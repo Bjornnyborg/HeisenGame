@@ -1,6 +1,6 @@
 <template>
   <div class="scoreboard" :class="{ 'scoreboard--active': isShowScoreboard }">
-    <div v-if="step == 0" class="scoreboard__step">
+    <div v-if="!submitted" class="scoreboard__step">
       <div v-if="!loading">
         <h1>Level {{ level }} in {{ stop }} sec.</h1>
         <p>To get on the scoreboard, submit your name:</p>
@@ -52,7 +52,6 @@ import HgLoading from '@/components/HgLoading.vue'
 export default Vue.extend({
   data() {
     return {
-      step: 0,
       loading: false,
       name: '',
       scoreboard: [],
@@ -72,7 +71,13 @@ export default Vue.extend({
       isShowScoreboard: 'isShowScoreboard',
       stop: 'getStop',
       level: 'characters/getLevel',
+      submitted: 'getSubmitted',
     }),
+  },
+  mounted() {
+    if (this.submitted) {
+      this.getScoreboard()
+    }
   },
   methods: {
     getDate(date: Date) {
@@ -83,6 +88,8 @@ export default Vue.extend({
       }).format(date)
     },
     async getScoreboard() {
+      this.loading = true
+
       await fetch(`${process.env.apiUrl}/highscore/${this.level}`)
         .then((response) => response.json())
         .then((data) => {
@@ -110,12 +117,11 @@ export default Vue.extend({
     },
     nextStep() {
       this.name = ''
-      this.step = 1
+      this.$store.commit('setSubmitted', true)
       this.scoreboard = []
       this.getScoreboard()
     },
     nextLevel() {
-      this.step = 0
       this.$store.dispatch('characters/INIT_GAME')
     },
   },

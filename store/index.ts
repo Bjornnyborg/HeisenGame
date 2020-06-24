@@ -3,6 +3,7 @@ import { HeisenState } from '~/@types'
 export const state = (): HeisenState => ({
   showIntro: true,
   showScoreboard: false,
+  submitted: true,
   start: Date.now(),
   stop: 0,
 })
@@ -20,6 +21,9 @@ export const mutations = {
   setStop(state: HeisenState, time: number) {
     state.stop = time
   },
+  setSubmitted(state: HeisenState, submitted: boolean) {
+    state.submitted = submitted
+  },
 }
 
 export const getters = {
@@ -34,6 +38,9 @@ export const getters = {
   },
   getStart(state: HeisenState) {
     return state.start
+  },
+  getSubmitted(state: HeisenState) {
+    return state.submitted
   },
 }
 
