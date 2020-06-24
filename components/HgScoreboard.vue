@@ -1,33 +1,30 @@
 <template>
   <div class="scoreboard" :class="{ 'scoreboard--active': isShowScoreboard }">
     <div v-if="step == 0" class="scoreboard__step">
-      <h1>Level {{ level }} in {{ stop }} sec.</h1>
-      <p>To get on the scoreboard, submit your name:</p>
+      <div v-if="!loading">
+        <h1>Level {{ level }} in {{ stop }} sec.</h1>
+        <p>To get on the scoreboard, submit your name:</p>
 
-      <form class="scoreboard__form" @submit.prevent="postScore()">
-        <input
-          class="scoreboard__input"
-          v-model="name"
-          placeholder="Insert name"
-          type="text"
-          required
-        />
-        <button type="submit" class="btn">Submit</button>
-      </form>
+        <form class="scoreboard__form" @submit.prevent="postScore()">
+          <input
+            class="scoreboard__input"
+            v-model="name"
+            placeholder="Insert name"
+            type="text"
+            required
+          />
+          <button type="submit" class="btn">Submit</button>
+        </form>
 
-      <button type="button" @click="nextStep()" class="scoreboard__continue">
-        No thanks
-      </button>
+        <button type="button" @click="nextStep()" class="scoreboard__continue">No thanks</button>
+      </div>
+      <hg-loading v-else />
     </div>
 
     <div v-else class="scoreboard__step">
       <h1>Highscores for level {{ level }}</h1>
       <div v-if="scoreboard.length">
-        <div
-          class="scoreboard__score"
-          v-for="(score, index) in scoreboard"
-          :key="index"
-        >
+        <div class="scoreboard__score" v-for="(score, index) in scoreboard" :key="index">
           <div class="scoreboard__place">{{ index + 1 }}</div>
           <div class="scoreboard__info">
             <div class="scoreboard__meta">
@@ -38,7 +35,8 @@
           </div>
         </div>
       </div>
-      <hg-loading v-else />
+      <hg-loading v-else-if="loading" />
+      <div v-else>No scores!</div>
       <div class="scoreboard__footer">
         <button @click="nextLevel" class="btn">Next level!</button>
       </div>
@@ -55,6 +53,7 @@ export default Vue.extend({
   data() {
     return {
       step: 0,
+      loading: false,
       name: '',
       scoreboard: [],
     }
@@ -88,9 +87,12 @@ export default Vue.extend({
         .then((response) => response.json())
         .then((data) => {
           this.scoreboard = data
+          this.loading = false
         })
     },
     async postScore() {
+      this.loading = true
+
       await fetch(`${process.env.apiUrl}/highscore`, {
         method: 'POST',
         headers: {

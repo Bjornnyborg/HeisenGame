@@ -6,6 +6,7 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { Character } from '../@types'
+import { DECKSIZE } from '../constants'
 
 export default Vue.extend({
   data() {
@@ -32,20 +33,15 @@ export default Vue.extend({
     },
     stopTime() {
       clearInterval((this as any).timer)
+      console.log('stop')
       this.$store.dispatch('STOP', this.time)
     },
     getClock() {
       this.time = Math.floor((Date.now() - this.start) / 1000)
     },
   },
-  watch: {
-    lockedCharacters: function (value) {
-      if (value.length === 0) {
-        this.stopTime()
-      } else if (value.length === 12) {
-        this.startTime()
-      }
-    },
+  beforeDestroy() {
+    this.stopTime()
   },
 })
 </script>
@@ -57,9 +53,13 @@ export default Vue.extend({
   position: fixed;
   bottom: 0;
   left: 0;
-  font-size: 20px;
+  font-size: 24px;
   width: 100%;
   text-align: center;
   padding: 16px;
+
+  @media (min-width: $media-md) {
+    font-size: 32px;
+  }
 }
 </style>

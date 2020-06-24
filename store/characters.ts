@@ -1,5 +1,6 @@
 import { CharacterState, Character } from '~/@types'
 import { shuffle } from '~/helpers/shuffle'
+import { DECKSIZE } from '~/constants'
 
 export const state = (): CharacterState => ({
   characters: [],
@@ -68,9 +69,7 @@ export const actions = {
       return !x.unlocked
     })
 
-    const decksize = 6
-    const firstCharathers = lockedCharacters.slice(0, decksize)
-
+    const firstCharathers = lockedCharacters.slice(0, DECKSIZE)
     const allCharacters = [...firstCharathers, ...firstCharathers]
 
     commit('setInGameCharacters', shuffle(allCharacters))
