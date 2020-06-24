@@ -1,11 +1,12 @@
 <template>
   <div>
+    <hg-win />
     <hg-intro />
     <hg-scoreboard />
 
     <div class="cards__wrapper">
       <div
-        v-if="characters && characters.length && !isShowIntro && !isShowScoreboard"
+        v-if="characters && characters.length && !isShowIntro && !isShowScoreboard && !isFinished"
         class="cards"
       >
         <hg-card
@@ -28,6 +29,7 @@ import HgIntro from '@/components/HgIntro.vue'
 import HgCard from '@/components/HgCard.vue'
 import HgTimer from '@/components/HgTimer.vue'
 import HgScoreboard from '@/components/HgScoreboard.vue'
+import HgWin from '@/components/HgWin.vue'
 import { Character } from '../@types'
 
 export default Vue.extend({
@@ -36,6 +38,7 @@ export default Vue.extend({
     HgIntro,
     HgScoreboard,
     HgTimer,
+    HgWin,
   },
   data() {
     return {
@@ -45,6 +48,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       isShowIntro: 'isShowIntro',
+      isFinished: 'characters/isFinished',
       isShowScoreboard: 'isShowScoreboard',
       characters: 'characters/getInGameCharacters',
       lockedCharacters: 'characters/getLockedInGameCharacters',

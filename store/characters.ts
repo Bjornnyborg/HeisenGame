@@ -43,6 +43,9 @@ export const getters = {
   getLevel(state: CharacterState) {
     return state.level
   },
+  isFinished(state: CharacterState) {
+    return state.characters.length && !state.characters.find((x) => !x.unlocked)
+  },
 }
 
 export const actions = {
@@ -50,17 +53,14 @@ export const actions = {
     commit('setShowScoreboard', true, { root: true })
   },
 
-  INIT_GAME({
-    commit,
-    dispatch,
-    state,
-  }: {
-    commit: any
-    dispatch: any
-    state: CharacterState
-  }) {
+  INIT_GAME({ commit, state }: { commit: any; state: CharacterState }) {
     commit('setShowScoreboard', false, { root: true })
     commit('setSubmitted', false, { root: true })
+
+    if (!state.characters.find((x) => !x.unlocked)) {
+      return
+    }
+
     commit('levelUp')
 
     commit('setStart', 0, { root: true })
