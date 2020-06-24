@@ -36,9 +36,7 @@
             <div class="scoreboard__meta">
               <strong class="scoreboard__name">{{ score.name }}</strong>
               <div>
-                {{
-                  $moment(new Date(score.createdDate)).format('DD. MMMM YYYY')
-                }}
+                {{ score.createdDate.replace('+0000', '') }}
               </div>
             </div>
             <div>{{ score.time }}s</div>

@@ -34,7 +34,7 @@ export default {
    ** Nuxt.js dev-modules
    */
 
-  buildModules: ['@nuxt/typescript-build', '@nuxtjs/pwa', '@nuxtjs/moment'],
+  buildModules: ['@nuxt/typescript-build', '@nuxtjs/pwa'],
   /*
    ** Nuxt.js modules
    */
