@@ -1,5 +1,6 @@
 <template>
   <div class="scoreboard" :class="{ 'scoreboard--active': isShowScoreboard }">
+    {{ status }}
     <div v-if="!submitted" class="scoreboard__step">
       <div v-if="!loading">
         <h1>Level {{ level }} in {{ stop }} sec.</h1>
@@ -55,6 +56,7 @@ export default Vue.extend({
       loading: false,
       name: '',
       scoreboard: [],
+      status: '',
     }
   },
   components: {
@@ -89,16 +91,19 @@ export default Vue.extend({
     },
     async getScoreboard() {
       this.loading = true
+      this.status = 'getting scoreboard'
 
       await fetch(`${process.env.apiUrl}/highscore/${this.level}`)
         .then((response) => response.json())
         .then((data) => {
           this.scoreboard = data
           this.loading = false
+          this.status = 'got scoreboard'
         })
     },
     async postScore() {
       this.loading = true
+      this.status = 'posting score'
 
       await fetch(`${process.env.apiUrl}/highscore`, {
         method: 'POST',
@@ -112,10 +117,13 @@ export default Vue.extend({
           level: this.level,
         }),
       }).then(() => {
+        this.status = 'posted score'
         this.nextStep()
       })
     },
     nextStep() {
+      this.status = 'next step'
+
       this.name = ''
       this.$store.commit('setSubmitted', true)
       this.scoreboard = []
