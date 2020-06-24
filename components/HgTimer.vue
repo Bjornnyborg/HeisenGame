@@ -33,7 +33,6 @@ export default Vue.extend({
     },
     stopTime() {
       clearInterval((this as any).timer)
-      console.log('stop')
       this.$store.dispatch('STOP', this.time)
     },
     getClock() {

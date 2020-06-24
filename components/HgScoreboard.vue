@@ -22,7 +22,7 @@
     </div>
 
     <div v-else class="scoreboard__step">
-      <h1>Highscores for level {{ level }}</h1>
+      <h1>Top 10 for level {{ level }}</h1>
       <div v-if="scoreboard.length">
         <div class="scoreboard__score" v-for="(score, index) in scoreboard" :key="index">
           <div class="scoreboard__place">{{ index + 1 }}</div>
